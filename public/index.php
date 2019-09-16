@@ -33,7 +33,4 @@ $kernel = new HttpKernel($dispatcher, $controllerResolver, new RequestStack(), $
 $response = $kernel->handle($request);
 $response->send();
 
-print_r($request);
-exit;
-
 $kernel->terminate($request, $response);
