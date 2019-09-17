@@ -44,7 +44,7 @@ class CustomerRepository implements CustomerRepositoryInterface
     /**
      * Find One Customer
      *
-     * @param int $customerId
+     * @param integer $customerId
      * @return array
      */
     public function fetchRow(int $customerId) : array

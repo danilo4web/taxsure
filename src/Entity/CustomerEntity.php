@@ -58,7 +58,7 @@ class CustomerEntity
     }
 
     /**
-     * @param int $id
+     * @param integer $id
      * @return \App\Entity\CustomerEntity
      */
     public function setId($id)
@@ -167,7 +167,7 @@ class CustomerEntity
     }
 
     /**
-     * @param int $status
+     * @param integer $status
      * @return \App\Entity\CustomerEntity
      */
     public function setStatus($status)

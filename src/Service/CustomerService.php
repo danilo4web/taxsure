@@ -54,7 +54,7 @@ class CustomerService implements CustomerServiceInterface
 
     /**
      *
-     * @param int $customerId
+     * @param integer $customerId
      * @return array
      */
     public function read($customerId) : array
@@ -66,7 +66,7 @@ class CustomerService implements CustomerServiceInterface
      * Update Customer
      *
      * @param \App\Entity\CustomerEntity  $customerEntity
-     * @param int $customerId;
+     * @param integer $customerId;
      * @return boolean
      */
     public function update($customerEntity, $customerId) : bool
@@ -75,7 +75,7 @@ class CustomerService implements CustomerServiceInterface
     }
 
     /**
-     * @param int $customerId
+     * @param integer $customerId
      * @return boolean
      */
     public function delete($customerId) : bool

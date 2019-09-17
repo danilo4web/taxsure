@@ -30,7 +30,7 @@ interface CustomerServiceInterface
 
     /**
      *
-     * @param int $customerId
+     * @param integer $customerId
      * @return array
      */
     public function read($customerId) : array;
@@ -39,13 +39,13 @@ interface CustomerServiceInterface
      * Update Customer
      *
      * @param \App\Entity\CustomerEntity  $customerEntity
-     * @param int $customerId;
+     * @param integer $customerId;
      * @return boolean
      */
     public function update($customerEntity, $customerId) : bool;
 
     /**
-     * @param int $customerId
+     * @param integer $customerId
      * @return boolean
      */
     public function delete($customerId) : bool;
