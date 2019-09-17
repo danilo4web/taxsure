@@ -49,7 +49,7 @@ DATA:
 	"name": "Danilo - Updated",
 	"email": "daniloborgespereira@gmail.com",
 	"phone": "88999997768",
-	"address": "Estrada das Lagrimas, 247 - Ipiranga - BR",
+	"address": "My address, 100 - City",
 	"gender": "M",
 	"status": "1"
 }    
