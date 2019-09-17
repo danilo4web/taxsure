@@ -29,7 +29,7 @@ class CustomerRepository implements CustomerRepositoryInterface
      */
     public function findAll() : array
     {
-        $query = "SELECT * FROM `symfony`.`customer` WHERE `status` = '1'";
+        $query = "SELECT * FROM `symfony`.`customer` WHERE `status` = '" . CustomerEntity::STATUS_ENABLED . "'";
 
         $result = mysqli_query($this->connection, $query);
 
