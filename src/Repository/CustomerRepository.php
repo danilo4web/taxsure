@@ -13,13 +13,12 @@ use App\Entity\CustomerEntity;
 class CustomerRepository implements CustomerRepositoryInterface
 {
 
-    /** @var $queryBuilder */
+    /** @var $connection */
     private $connection;
 
     public function __construct()
     {
         global $connection;
-
         $this->connection = $connection;
     }
 
@@ -28,14 +27,14 @@ class CustomerRepository implements CustomerRepositoryInterface
      *
      * @return array
      */
-    public function findAll()
+    public function findAll() : array
     {
         $query = "SELECT * FROM `symfony`.`customer` WHERE `status` = '1'";
 
         $result = mysqli_query($this->connection, $query);
 
         $content = [];
-        while($row = mysqli_fetch_assoc($result)) {
+        while ($row = mysqli_fetch_assoc($result)) {
             $content[] = $row;
         }
 
@@ -48,7 +47,7 @@ class CustomerRepository implements CustomerRepositoryInterface
      * @param int $customerId
      * @return array
      */
-    public function fetchRow(int $customerId)
+    public function fetchRow(int $customerId) : array
     {
         $query = "SELECT * FROM `symfony`.`customer` WHERE `id` = '{$customerId}'";
 
@@ -65,7 +64,7 @@ class CustomerRepository implements CustomerRepositoryInterface
      * Create Customer
      *
      * @param \App\Entity\CustomerEntity $customerEntity
-     * @return bool
+     * @return boolean
      */
     public function create(CustomerEntity $customerEntity) : bool
     {
@@ -94,7 +93,7 @@ class CustomerRepository implements CustomerRepositoryInterface
      *
      * @param \App\Entity\CustomerEntity $customerEntity
      * @param integer                    $customerId
-     * @return bool
+     * @return boolean
      */
     public function update(CustomerEntity $customerEntity, int $customerId) : bool
     {
@@ -122,7 +121,7 @@ class CustomerRepository implements CustomerRepositoryInterface
      * Delete Customer
      *
      * @param integer $customerId
-     * @return bool
+     * @return boolean
      */
     public function delete(int $customerId) : bool
     {

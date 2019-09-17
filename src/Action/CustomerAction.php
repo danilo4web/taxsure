@@ -46,6 +46,13 @@ class CustomerAction
 
         $retorno = $this->customerService->read($customerId);
 
+        if (!count($retorno)) {
+            return new JsonResponse(
+                'Customer not found',
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
         return new JsonResponse(
             $retorno,
             Response::HTTP_OK

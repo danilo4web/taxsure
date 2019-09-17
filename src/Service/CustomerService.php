@@ -36,7 +36,7 @@ class CustomerService implements CustomerServiceInterface
      * Listing all customers
      * @return array
      */
-    public function all()
+    public function allCustomers() : array
     {
         return (array) $this->customerRepository->findAll();
     }
@@ -45,7 +45,7 @@ class CustomerService implements CustomerServiceInterface
      * Create a new Customer
      *
      * @param \App\Entity\CustomerEntity $customerEntity
-     * @return bool
+     * @return boolean
      */
     public function create(CustomerEntity $customerEntity) : bool
     {
@@ -55,9 +55,9 @@ class CustomerService implements CustomerServiceInterface
     /**
      *
      * @param int $customerId
-     * @return mixed
+     * @return array
      */
-    public function read($customerId)
+    public function read($customerId) : array
     {
         return $this->customerRepository->fetchRow($customerId);
     }
@@ -67,18 +67,18 @@ class CustomerService implements CustomerServiceInterface
      *
      * @param \App\Entity\CustomerEntity  $customerEntity
      * @param int $customerId;
-     * @return mixed
+     * @return boolean
      */
-    public function update($customerEntity, $customerId)
+    public function update($customerEntity, $customerId) : bool
     {
         return $this->customerRepository->update($customerEntity, $customerId);
     }
 
     /**
      * @param int $customerId
-     * @return mixed
+     * @return boolean
      */
-    public function delete($customerId)
+    public function delete($customerId) : bool
     {
         return $this->customerRepository->delete($customerId);
     }

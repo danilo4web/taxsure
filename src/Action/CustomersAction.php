@@ -37,7 +37,7 @@ class CustomersAction
      */
     public function handle(Request $request)
     {
-        $result = $this->customerService->all();
+        $result = $this->customerService->allCustomers();
 
         return new JsonResponse(
             $result,

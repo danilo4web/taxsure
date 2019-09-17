@@ -18,7 +18,7 @@ interface CustomerServiceInterface
      *
      * @return array
      */
-    public function all();
+    public function allCustomers() : array;
 
     /**
      * Create a new Customer
@@ -31,22 +31,22 @@ interface CustomerServiceInterface
     /**
      *
      * @param int $customerId
-     * @return mixed
+     * @return array
      */
-    public function read($customerId);
+    public function read($customerId) : array;
 
     /**
      * Update Customer
      *
      * @param \App\Entity\CustomerEntity  $customerEntity
      * @param int $customerId;
-     * @return mixed
+     * @return boolean
      */
-    public function update($customerEntity, $customerId);
+    public function update($customerEntity, $customerId) : bool;
 
     /**
      * @param int $customerId
-     * @return mixed
+     * @return boolean
      */
-    public function delete($customerId);
+    public function delete($customerId) : bool;
 }

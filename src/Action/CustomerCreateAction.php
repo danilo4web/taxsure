@@ -52,6 +52,13 @@ class CustomerCreateAction
 
         $retorno = $this->customerService->create($customerEntity);
 
+        if (!$retorno) {
+            return new JsonResponse(
+                'Customer not created',
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+
         return new JsonResponse(
             $content,
             Response::HTTP_CREATED
