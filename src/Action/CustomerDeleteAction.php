@@ -46,7 +46,7 @@ class CustomerDeleteAction
 
         return new JsonResponse(
             $result,
-            Response::HTTP_OK
+            Response::HTTP_NO_CONTENT
         );
     }
 }
