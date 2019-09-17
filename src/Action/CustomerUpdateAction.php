@@ -6,10 +6,11 @@ use App\Service\CustomerService;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\CustomerEntity;
 use App\Repository\CustomerRepository;
 /**
- * Class CustomerAction
+ * Class CustomerUpdateAction
  *
  * @package App\Action
  * @author Danilo Pereira <danilo4web@gmail.com>
@@ -19,31 +20,45 @@ class CustomerUpdateAction
     private $customerService;
 
     /**
-     * CustomerAction constructor.
+     * CustomerUpdateAction constructor.
      */
     public function __construct() {
         $this->customerService = new CustomerService(
             new CustomerEntity(),
             new CustomerRepository()
         );
-        $this->handle();
     }
 
-    public function handle()
+    /**
+     * Update Customer
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @throws \InvalidArgumentException
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function handle(Request $request)
     {
-        $request = Request::createFromGlobals();
-        $content = json_decode($request->getContent(), true);
+        $customerId = $request->attributes->get('customerId');
+
+        if (!is_numeric($customerId)) {
+            throw new \InvalidArgumentException("Invalid customer ID", Response::HTTP_BAD_REQUEST);
+        }
+
+        $data = json_decode($request->getContent(), true);
 
         $customerEntity = new CustomerEntity();
+        $customerEntity->setName($data['name']);
+        $customerEntity->setEmail($data['email']);
+        $customerEntity->setPhone($data['phone']);
+        $customerEntity->setAddress($data['address']);
+        $customerEntity->setGender($data['gender']);
+        $customerEntity->setStatus($data['status']);
 
-        $customerEntity->setName($content['name']);
-        $customerEntity->setEmail($content['email']);
-        $customerEntity->setPhone($content['phone']);
-        $customerEntity->setAddress($content['address']);
-        $customerEntity->setGender($content['gender']);
-        $customerEntity->setStatus($content['status']);
+        $result = $this->customerService->update($customerEntity, $customerId);
 
-        echo json_encode($this->customerService->update($customerEntity, $content['id']));
-        exit;
+        return new JsonResponse(
+            ['data' => $data],
+            Response::HTTP_OK
+        );
     }
 }

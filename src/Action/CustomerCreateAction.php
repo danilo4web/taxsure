@@ -2,14 +2,15 @@
 
 namespace App\Action;
 
-use App\Service\CustomerService;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\CustomerEntity;
 use App\Repository\CustomerRepository;
+use App\Service\CustomerService;
+
 /**
- * Class CustomerAction
+ * Class CustomerCreateAction
  *
  * @package App\Action
  * @author Danilo Pereira <danilo4web@gmail.com>
@@ -19,19 +20,24 @@ class CustomerCreateAction
     private $customerService;
 
     /**
-     * CustomerAction constructor.
+     * CustomerCreateAction constructor.
      */
     public function __construct() {
         $this->customerService = new CustomerService(
             new CustomerEntity(),
             new CustomerRepository()
         );
-        $this->handle();
     }
 
-    public function handle()
+    /**
+     * Create Customer
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @throws \InvalidArgumentException
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function handle(Request $request)
     {
-        $request = Request::createFromGlobals();
         $content = json_decode($request->getContent(), true);
 
         $customerEntity = new CustomerEntity();
@@ -46,7 +52,9 @@ class CustomerCreateAction
 
         $retorno = $this->customerService->create($customerEntity);
 
-        echo json_encode($retorno);
-        exit;
+        return new JsonResponse(
+            $content,
+            Response::HTTP_CREATED
+        );
     }
 }

@@ -2,6 +2,9 @@
 
 namespace App;
 
+use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\RouteCollection;
+
 chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
 
@@ -14,6 +17,7 @@ use Symfony\Component\HttpKernel\EventListener\RouterListener;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 include "config/database.php";
 $routes = include "config/routes.php";
@@ -25,12 +29,19 @@ $matcher = new UrlMatcher($routes, new RequestContext());
 $dispatcher = new EventDispatcher();
 $dispatcher->addSubscriber(new RouterListener($matcher, new RequestStack()));
 
-$controllerResolver = new ControllerResolver();
-$argumentResolver = new ArgumentResolver();
+try {
+    $controllerResolver = new ControllerResolver();
+    $argumentResolver = new ArgumentResolver();
 
-$kernel = new HttpKernel($dispatcher, $controllerResolver, new RequestStack(), $argumentResolver);
+    $kernel = new HttpKernel($dispatcher, $controllerResolver, new RequestStack(), $argumentResolver);
 
-$response = $kernel->handle($request);
-$response->send();
+    $response = $kernel->handle($request);
+    $response->send();
 
-$kernel->terminate($request, $response);
+    $kernel->terminate($request, $response);
+
+} catch (ResourceNotFoundException $e) {
+    return new Response('Not Found', 404);
+} catch (Exception $e) {
+    return new Response('An error occurred', 500);
+}

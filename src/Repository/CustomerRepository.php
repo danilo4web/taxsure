@@ -48,12 +48,17 @@ class CustomerRepository implements CustomerRepositoryInterface
      * @param int $customerId
      * @return array
      */
-    public function fetchRow(int $customerId) : array
+    public function fetchRow(int $customerId)
     {
         $query = "SELECT * FROM `symfony`.`customer` WHERE `id` = '{$customerId}'";
 
         $result = mysqli_query($this->connection, $query);
-        return mysqli_fetch_assoc($result);
+
+        if ($result->num_rows > 0) {
+            return mysqli_fetch_assoc($result);
+        }
+
+        return [];
     }
 
     /**

@@ -6,10 +6,11 @@ use App\Service\CustomerService;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\CustomerEntity;
 use App\Repository\CustomerRepository;
 /**
- * Class CustomerAction
+ * Class CustomerDeleteAction
  *
  * @package App\Action
  * @author Danilo Pereira <danilo4web@gmail.com>
@@ -19,25 +20,35 @@ class CustomerDeleteAction
     private $customerService;
 
     /**
-     * CustomerAction constructor.
+     * CustomerDeleteAction constructor.
      */
     public function __construct() {
         $this->customerService = new CustomerService(
             new CustomerEntity(),
             new CustomerRepository()
         );
-
-        $this->handle();
     }
 
-    public function handle()
+    /**
+     * Delete Customer
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @throws \InvalidArgumentException
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function handle(Request $request)
     {
-        $request = Request::createFromGlobals();
-        $content = json_decode($request->getContent(), true);
+        $customerId = $request->attributes->get('customerId');
 
-        $return = $this->customerService->delete($content['id']);
+        if (!is_numeric($customerId)) {
+            throw new \InvalidArgumentException("Invalid customer ID", Response::HTTP_BAD_REQUEST);
+        }
 
-        echo json_encode($return);
-        exit;
+        $result = $this->customerService->delete($customerId);
+
+        return new JsonResponse(
+            $result,
+            Response::HTTP_OK
+        );
     }
 }

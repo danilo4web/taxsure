@@ -25,7 +25,7 @@ interface CustomerRepositoryInterface
      * @param integer $customerId
      * @return array
      */
-    public function fetchRow(int $customerId) : array;
+    public function fetchRow(int $customerId);
 
     /**
      * Create Customer
