@@ -4,9 +4,7 @@ namespace App\Action;
 
 use App\Service\CustomerService;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\{Request, Response, JsonResponse};
 use App\Entity\CustomerEntity;
 use App\Repository\CustomerRepository;
 /**
