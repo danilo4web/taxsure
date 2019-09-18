@@ -33,12 +33,14 @@ class CustomerService implements CustomerServiceInterface
     }
 
     /**
-     * Listing all customers
+     * Find for customers
+     *
+     * @param array $params
      * @return array
      */
-    public function allCustomers() : array
+    public function findCustomers($params) : array
     {
-        return (array) $this->customerRepository->findAll();
+        return $this->customerRepository->findCustomers($params);
     }
 
     /**
@@ -53,11 +55,12 @@ class CustomerService implements CustomerServiceInterface
     }
 
     /**
+     * Find Customer
      *
      * @param integer $customerId
-     * @return array
+     * @return mixed
      */
-    public function read($customerId) : array
+    public function find($customerId)
     {
         return $this->customerRepository->fetchRow($customerId);
     }

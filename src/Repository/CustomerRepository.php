@@ -23,13 +23,20 @@ class CustomerRepository implements CustomerRepositoryInterface
     }
 
     /**
-     * Find All Customers
+     * Find customers
      *
+     * @param array $params
      * @return array
      */
-    public function findAll() : array
+    public function findCustomers($params) : array
     {
         $query = "SELECT * FROM `symfony`.`customer` WHERE `status` = '" . CustomerEntity::STATUS_ENABLED . "'";
+
+        if (count($params)) {
+            foreach($params as $key => $content) {
+                $query .= " AND `$key` = '" . $content . "' ";
+            }
+        }
 
         $result = mysqli_query($this->connection, $query);
 
@@ -45,19 +52,33 @@ class CustomerRepository implements CustomerRepositoryInterface
      * Find One Customer
      *
      * @param integer $customerId
-     * @return array
+     * @return mixed
      */
-    public function fetchRow(int $customerId) : array
+    public function fetchRow(int $customerId)
     {
-        $query = "SELECT * FROM `symfony`.`customer` WHERE `id` = '{$customerId}'";
+        $query = "SELECT `id`, `name`, `email`, `phone`, `address`, `gender`, `status`
+                  FROM `symfony`.`customer` 
+                  WHERE `id` = '{$customerId}'";
 
         $result = mysqli_query($this->connection, $query);
 
         if ($result->num_rows > 0) {
-            return mysqli_fetch_assoc($result);
+            $data = mysqli_fetch_assoc($result);
+
+            $customerEntity = new CustomerEntity();
+            $customerEntity->setId($data['id'])
+                           ->setName($data['name'])
+                           ->setEmail($data['email'])
+                           ->setPhone($data['phone'])
+                           ->setAddress($data['address'])
+                           ->setGender($data['gender'])
+                           ->setStatus($data['status']);
+
+
+            return $customerEntity;
         }
 
-        return [];
+        return null;
     }
 
     /**

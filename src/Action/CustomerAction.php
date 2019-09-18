@@ -42,9 +42,9 @@ class CustomerAction
             throw new \InvalidArgumentException("Invalid customer ID", Response::HTTP_BAD_REQUEST);
         }
 
-        $retorno = $this->customerService->read($customerId);
+        $customerEntity = $this->customerService->find($customerId);
 
-        if (!count($retorno)) {
+        if (!($customerEntity instanceof CustomerEntity)) {
             return new JsonResponse(
                 'Customer not found',
                 Response::HTTP_NOT_FOUND
@@ -52,7 +52,16 @@ class CustomerAction
         }
 
         return new JsonResponse(
-            $retorno,
+            [
+                'data' => [
+                    'name' => $customerEntity->getName(),
+                    'email' => $customerEntity->getEmail(),
+                    'phone' => $customerEntity->getPhone(),
+                    'address' => $customerEntity->getAddress(),
+                    'gender' => $customerEntity->getGender(),
+                    'status' => $customerEntity->getStatus()
+                ]
+            ],
             Response::HTTP_OK
         );
     }

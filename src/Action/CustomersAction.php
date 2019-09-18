@@ -35,10 +35,12 @@ class CustomersAction
      */
     public function handle(Request $request)
     {
-        $result = $this->customerService->allCustomers();
+        $params = json_decode($request->getContent(), true);
+
+        $result = $this->customerService->findCustomers($params);
 
         return new JsonResponse(
-            $result,
+            ['data' => $result, 'count' => count($result)],
             Response::HTTP_OK
         );
     }

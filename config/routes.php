@@ -4,9 +4,9 @@ use Symfony\Component\Routing\RouteCollection;
 
 $routes = new RouteCollection();
 
-# LIST
+# Search
 $routes->add('customers', new Route(
-    '/customers', ['_controller' => 'App\Action\CustomersAction::handle'], [], [], '', [], ['GET']
+    '/customers', ['_controller' => 'App\Action\CustomersAction::handle'], [], [], '', [], ['POST']
 ));
 
 # ONE

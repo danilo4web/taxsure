@@ -2,9 +2,6 @@
 
 namespace App;
 
-use Symfony\Component\Routing\Route;
-use Symfony\Component\Routing\RouteCollection;
-
 chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
 

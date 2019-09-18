@@ -67,8 +67,13 @@ URL: http://0.0.0.0:8001/customer/3
 TYPE: DELETE
 ```
 
-@ List
+@ Search
 ```bash 
 URL: http://0.0.0.0:8001/customers
-TYPE: GET
+TYPE: POST
+DATA:
+{
+	"name": "Danilo",
+	"email": "daniloborgespereira@gmail.com"
+}    
 ```

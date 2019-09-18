@@ -13,19 +13,20 @@ use App\Entity\CustomerEntity;
 interface CustomerRepositoryInterface
 {
     /**
-     * Find All Customers
+     * find customers
      *
+     * @param $params
      * @return array
      */
-    public function findAll() : array;
+    public function findCustomers($params) : array;
 
     /**
      * Find One Customer
      *
      * @param integer $customerId
-     * @return array
+     * @return mixed
      */
-    public function fetchRow(int $customerId) : array;
+    public function fetchRow(int $customerId);
 
     /**
      * Create Customer

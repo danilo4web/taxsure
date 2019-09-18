@@ -14,11 +14,12 @@ interface CustomerServiceInterface
 {
 
     /**
-     * Listing all customers
+     * Find for customers
      *
+     * @param array $params
      * @return array
      */
-    public function allCustomers() : array;
+    public function findCustomers($params) : array;
 
     /**
      * Create a new Customer
@@ -29,11 +30,12 @@ interface CustomerServiceInterface
     public function create(CustomerEntity $customerEntity) : bool;
 
     /**
+     * Find Customer
      *
      * @param integer $customerId
-     * @return array
+     * @return mixed
      */
-    public function read($customerId) : array;
+    public function find($customerId);
 
     /**
      * Update Customer

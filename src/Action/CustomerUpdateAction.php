@@ -42,20 +42,38 @@ class CustomerUpdateAction
             throw new \InvalidArgumentException("Invalid customer ID", Response::HTTP_BAD_REQUEST);
         }
 
+        $customerEntity = $this->customerService->find($customerId);
+
         $data = json_decode($request->getContent(), true);
 
-        $customerEntity = new CustomerEntity();
-        $customerEntity->setName($data['name']);
-        $customerEntity->setEmail($data['email']);
-        $customerEntity->setPhone($data['phone']);
-        $customerEntity->setAddress($data['address']);
-        $customerEntity->setGender($data['gender']);
-        $customerEntity->setStatus($data['status']);
+        if (isset($data['name'])) {
+            $customerEntity->setName($data['name']);
+        }
+
+        if (isset($data['email'])) {
+            $customerEntity->setEmail($data['email']);
+        }
+
+        if (isset($data['phone'])) {
+            $customerEntity->setPhone($data['phone']);
+        }
+
+        if (isset($data['address'])) {
+            $customerEntity->setAddress($data['address']);
+        }
+
+        if (isset($data['gender'])) {
+            $customerEntity->setGender($data['gender']);
+        }
+
+        if (isset($data['status'])) {
+            $customerEntity->setStatus($data['status']);
+        }
 
         $result = $this->customerService->update($customerEntity, $customerId);
 
         return new JsonResponse(
-            ['data' => $data],
+            ['data' => $result],
             Response::HTTP_OK
         );
     }
