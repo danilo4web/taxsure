@@ -11,7 +11,7 @@ use App\Repository\CustomerRepository;
  * Class CustomerAction
  *
  * @package App\Action
- * @author Danilo Pereira <danilo4web@gmail.com>
+ * @author  Danilo Pereira <danilo4web@gmail.com>
  */
 class CustomerAction
 {
@@ -20,7 +20,8 @@ class CustomerAction
     /**
      * CustomerAction constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->customerService = new CustomerService(
             new CustomerEntity(),
             new CustomerRepository()

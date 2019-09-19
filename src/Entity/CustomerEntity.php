@@ -8,50 +8,34 @@ namespace App\Entity;
 class CustomerEntity
 {
 
-    /** @var integer  */
+    /** @var integer */
     const STATUS_ENABLED = 1;
 
-    /** @var integer  */
+    /** @var integer */
     const STATUS_DISABLED = 0;
 
-    /**
-     * @var integer
-     */
+    /** @return string */
     private $id;
 
-    /**
-     * @var string
-     */
+    /** @return string */
     private $name;
 
-    /**
-     * @var string
-     */
+    /** @return string */
     private $email;
 
-    /**
-     * @var string
-     */
+    /** @return string */
     private $phone;
 
-    /**
-     * @var string
-     */
+    /** @return string */
     private $address;
 
-    /**
-     * @var string
-     */
+    /** @return string */
     private $gender;
 
-    /**
-     * @var integer
-     */
+    /** @return integer */
     private $status;
 
-    /**
-     * @return int
-     */
+    /** @return integer */
     public function getId()
     {
         return $this->id;
@@ -159,7 +143,7 @@ class CustomerEntity
 
 
     /**
-     * @return int
+     * @return integer
      */
     public function getStatus()
     {

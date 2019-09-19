@@ -28,12 +28,12 @@ class CustomerRepository implements CustomerRepositoryInterface
      * @param array $params
      * @return array
      */
-    public function findCustomers($params) : array
+    public function findCustomers($params): array
     {
         $query = "SELECT * FROM `symfony`.`customer` WHERE `status` = '" . CustomerEntity::STATUS_ENABLED . "'";
 
         if (count($params)) {
-            foreach($params as $key => $content) {
+            foreach ($params as $key => $content) {
                 $query .= " AND `$key` = '" . $content . "' ";
             }
         }
@@ -67,12 +67,12 @@ class CustomerRepository implements CustomerRepositoryInterface
 
             $customerEntity = new CustomerEntity();
             $customerEntity->setId($data['id'])
-                           ->setName($data['name'])
-                           ->setEmail($data['email'])
-                           ->setPhone($data['phone'])
-                           ->setAddress($data['address'])
-                           ->setGender($data['gender'])
-                           ->setStatus($data['status']);
+                ->setName($data['name'])
+                ->setEmail($data['email'])
+                ->setPhone($data['phone'])
+                ->setAddress($data['address'])
+                ->setGender($data['gender'])
+                ->setStatus($data['status']);
 
 
             return $customerEntity;
@@ -87,7 +87,7 @@ class CustomerRepository implements CustomerRepositoryInterface
      * @param \App\Entity\CustomerEntity $customerEntity
      * @return boolean
      */
-    public function create(CustomerEntity $customerEntity) : bool
+    public function create(CustomerEntity $customerEntity): bool
     {
         $query = "
             INSERT INTO `symfony`.`customer`
@@ -116,7 +116,7 @@ class CustomerRepository implements CustomerRepositoryInterface
      * @param integer                    $customerId
      * @return boolean
      */
-    public function update(CustomerEntity $customerEntity, int $customerId) : bool
+    public function update(CustomerEntity $customerEntity, int $customerId): bool
     {
         $query = "
             UPDATE `symfony`.`customer`
@@ -144,7 +144,7 @@ class CustomerRepository implements CustomerRepositoryInterface
      * @param integer $customerId
      * @return boolean
      */
-    public function delete(int $customerId) : bool
+    public function delete(int $customerId): bool
     {
         $query = "DELETE FROM `symfony`.`customer` WHERE `id` = '{$customerId}'";
 

@@ -7,11 +7,12 @@ use App\Service\CustomerService;
 use Symfony\Component\HttpFoundation\{Request, Response, JsonResponse};
 use App\Entity\CustomerEntity;
 use App\Repository\CustomerRepository;
+
 /**
  * Class CustomerDeleteAction
  *
  * @package App\Action
- * @author Danilo Pereira <danilo4web@gmail.com>
+ * @author  Danilo Pereira <danilo4web@gmail.com>
  */
 class CustomerDeleteAction
 {
@@ -20,7 +21,8 @@ class CustomerDeleteAction
     /**
      * CustomerDeleteAction constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->customerService = new CustomerService(
             new CustomerEntity(),
             new CustomerRepository()

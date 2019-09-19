@@ -8,7 +8,7 @@ use App\Entity\CustomerEntity;
  * Interface CustomerServiceInterface
  *
  * @package App\Service
- * @author Danilo Pereira
+ * @author  Danilo Pereira
  */
 interface CustomerServiceInterface
 {
@@ -19,7 +19,7 @@ interface CustomerServiceInterface
      * @param array $params
      * @return array
      */
-    public function findCustomers($params) : array;
+    public function findCustomers($params): array;
 
     /**
      * Create a new Customer
@@ -27,7 +27,7 @@ interface CustomerServiceInterface
      * @param \App\Entity\CustomerEntity $customerEntity
      * @return mixed
      */
-    public function create(CustomerEntity $customerEntity) : bool;
+    public function create(CustomerEntity $customerEntity): bool;
 
     /**
      * Find Customer
@@ -40,15 +40,15 @@ interface CustomerServiceInterface
     /**
      * Update Customer
      *
-     * @param \App\Entity\CustomerEntity  $customerEntity
-     * @param integer $customerId;
+     * @param \App\Entity\CustomerEntity $customerEntity
+     * @param integer                    $customerId ;
      * @return boolean
      */
-    public function update($customerEntity, $customerId) : bool;
+    public function update($customerEntity, $customerId): bool;
 
     /**
      * @param integer $customerId
      * @return boolean
      */
-    public function delete($customerId) : bool;
+    public function delete($customerId): bool;
 }

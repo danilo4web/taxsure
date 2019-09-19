@@ -1,4 +1,5 @@
 <?php
+
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
@@ -11,7 +12,8 @@ $routes->add('customers', new Route(
 
 # ONE
 $routes->add('customer', new Route(
-    '/customer/{customerId}', ['_controller' => 'App\Action\CustomerAction::handle'], ['customerId' => '\d+'], [], '', [], ['GET']
+    '/customer/{customerId}', ['_controller' => 'App\Action\CustomerAction::handle'], ['customerId' => '\d+'], [], '',
+    [], ['GET']
 ));
 
 # CREATE
@@ -21,12 +23,14 @@ $routes->add('customer.create', new Route(
 
 # UPDATE
 $routes->add('customer.update', new Route(
-    '/customer/{customerId}', ['_controller' => 'App\Action\CustomerUpdateAction::handle'], ['customerId' => '\d+'], [], '', [], ['PUT']
+    '/customer/{customerId}', ['_controller' => 'App\Action\CustomerUpdateAction::handle'], ['customerId' => '\d+'], [],
+    '', [], ['PUT']
 ));
 
 # DELETE
 $routes->add('customer.delete', new Route(
-    '/customer/{customerId}', ['_controller' => 'App\Action\CustomerDeleteAction::handle'], ['customerId' => '\d+'], [], '', [], ['DELETE']
+    '/customer/{customerId}', ['_controller' => 'App\Action\CustomerDeleteAction::handle'], ['customerId' => '\d+'], [],
+    '', [], ['DELETE']
 ));
 
 return $routes;

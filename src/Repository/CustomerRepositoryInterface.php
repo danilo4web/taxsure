@@ -18,7 +18,7 @@ interface CustomerRepositoryInterface
      * @param $params
      * @return array
      */
-    public function findCustomers($params) : array;
+    public function findCustomers($params): array;
 
     /**
      * Find One Customer
@@ -34,7 +34,7 @@ interface CustomerRepositoryInterface
      * @param \App\Entity\CustomerEntity $customerEntity
      * @return boolean
      */
-    public function create(CustomerEntity $customerEntity) : bool;
+    public function create(CustomerEntity $customerEntity): bool;
 
     /**
      * Update Customer
@@ -43,7 +43,7 @@ interface CustomerRepositoryInterface
      * @param integer                    $customerId
      * @return boolean
      */
-    public function update(CustomerEntity $customerEntity, int $customerId) : bool;
+    public function update(CustomerEntity $customerEntity, int $customerId): bool;
 
     /**
      * Delete Customer
@@ -51,5 +51,5 @@ interface CustomerRepositoryInterface
      * @param integer $customerId
      * @return boolean
      */
-    public function delete(int $customerId) : bool;
+    public function delete(int $customerId): bool;
 }

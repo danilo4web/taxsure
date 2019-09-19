@@ -9,7 +9,7 @@ use App\Repository\CustomerRepositoryInterface;
  * Interface CustomerServiceInterface
  *
  * @package App\Service
- * @author Danilo Pereira <danilo4web@gmail.com>
+ * @author  Danilo Pereira <danilo4web@gmail.com>
  */
 class CustomerService implements CustomerServiceInterface
 {
@@ -38,7 +38,7 @@ class CustomerService implements CustomerServiceInterface
      * @param array $params
      * @return array
      */
-    public function findCustomers($params) : array
+    public function findCustomers($params): array
     {
         return $this->customerRepository->findCustomers($params);
     }
@@ -49,7 +49,7 @@ class CustomerService implements CustomerServiceInterface
      * @param \App\Entity\CustomerEntity $customerEntity
      * @return boolean
      */
-    public function create(CustomerEntity $customerEntity) : bool
+    public function create(CustomerEntity $customerEntity): bool
     {
         return $this->customerRepository->create($customerEntity);
     }
@@ -68,11 +68,11 @@ class CustomerService implements CustomerServiceInterface
     /**
      * Update Customer
      *
-     * @param \App\Entity\CustomerEntity  $customerEntity
-     * @param integer $customerId;
+     * @param \App\Entity\CustomerEntity $customerEntity
+     * @param integer                    $customerId ;
      * @return boolean
      */
-    public function update($customerEntity, $customerId) : bool
+    public function update($customerEntity, $customerId): bool
     {
         return $this->customerRepository->update($customerEntity, $customerId);
     }
@@ -81,7 +81,7 @@ class CustomerService implements CustomerServiceInterface
      * @param integer $customerId
      * @return boolean
      */
-    public function delete($customerId) : bool
+    public function delete($customerId): bool
     {
         return $this->customerRepository->delete($customerId);
     }
