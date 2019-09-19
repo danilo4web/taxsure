@@ -22,7 +22,8 @@ class CustomerService implements CustomerServiceInterface
     /**
      * CustomerService constructor.
      *
-     * @param \App\Entity\CustomerEntity $customerEntity
+     * @param \App\Entity\CustomerEntity                  $customerEntity
+     * @param \App\Repository\CustomerRepositoryInterface $customerRepository
      */
     public function __construct(
         CustomerEntity $customerEntity,
