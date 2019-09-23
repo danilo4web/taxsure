@@ -41,6 +41,9 @@ class CustomerService implements CustomerServiceInterface
      *
      * @param integer $customerId
      * @return \App\Entity\CustomerEntity
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
      */
     public function getCustomer($customerId): CustomerEntity
     {
@@ -48,7 +51,7 @@ class CustomerService implements CustomerServiceInterface
             throw new \InvalidArgumentException("Invalid Custumer ID");
         }
 
-        return $this->customerRepository->customer($customerId);
+        return $this->customerRepository->getCustomer($customerId);
     }
 
     /**

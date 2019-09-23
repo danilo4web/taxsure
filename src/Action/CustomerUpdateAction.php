@@ -49,10 +49,10 @@ class CustomerUpdateAction
         // entity from db
         $customerEntity = $this->customerService->getCustomer($customerId);
 
-        // data to update
+        // request data
         $data = json_decode($request->getContent(), true);
 
-        // entity hydrated
+        // hydrate entity
         $customerEntity = $this->hydrate($customerEntity, $data);
 
         // update
@@ -72,7 +72,6 @@ class CustomerUpdateAction
             Response::HTTP_OK
         );
     }
-
 
     /**
      * @param \App\Entity\CustomerEntity $customerEntity

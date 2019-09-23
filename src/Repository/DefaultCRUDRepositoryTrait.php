@@ -14,7 +14,9 @@ use Doctrine\ORM\DefaultEntityInterface;
 trait DefaultCRUDRepositoryTrait
 {
     /** @var \Doctrine\ORM\EntityManager */
-    public static $_em;
+
+    /** @var \Doctrine\ORM\EntityManager */
+    public static $entityManager;
 
     /**
      * DefaultRepositoryAbstract constructor.
@@ -31,7 +33,7 @@ trait DefaultCRUDRepositoryTrait
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function create($entity): mixed
+    public function create($entity)
     {
         $this->_em->persist($entity);
         $this->_em->flush();
@@ -46,7 +48,7 @@ trait DefaultCRUDRepositoryTrait
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function update($entity): mixed
+    public function update($entity)
     {
         $this->_em->merge($entity);
         $this->_em->flush();
@@ -61,7 +63,7 @@ trait DefaultCRUDRepositoryTrait
      * @throws \Doctrine\ORM\OptimisticLockException
      * @return void
      */
-    public function delete($entity): void
+    public function delete($entity)
     {
         $this->_em->remove($entity);
         $this->_em->flush();

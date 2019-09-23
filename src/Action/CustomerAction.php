@@ -64,6 +64,7 @@ class CustomerAction
     public function extrator($customerEntity)
     {
         return [
+            'id' => $customerEntity->getId(),
             'name' => $customerEntity->getName(),
             'email' => $customerEntity->getEmail(),
             'phone' => $customerEntity->getPhone(),

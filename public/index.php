@@ -21,28 +21,6 @@ $entityManager = include "config/database.php";
 
 DefaultCRUDRepositoryTrait::$entityManager = $entityManager;
 
-/*############################################
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
-
-// creating an empty container builder
-$containerBuilder = new ContainerBuilder();
-
-// add service into the service container
-$containerBuilder->register('customer.service', 'App\Service\CustomerService');
-
-// add dependent service into the service container
-$containerBuilder->register('dependent.service', 'App\Service\DependentService')
-                 ->addArgument(new Reference('customer.service'));
-
-// fetch service from the service container
-$demoService = $containerBuilder->get('dependent.service');
-
-echo $demoService->helloWorld();
-
-//print_r($containerBuilder);
-############################################*/
-
 $routes = include "config/routes.php";
 
 $request = Request::createFromGlobals();

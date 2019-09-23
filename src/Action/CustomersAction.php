@@ -41,6 +41,27 @@ class CustomersAction
         /** @var array $data */
         $data = $this->customerService->getCustomersBy($postParams);
 
+        foreach ($data as $key => $row) {
+            $data[$key] = self::extrator($row);
+        }
+
         return new JsonResponse(['data' => $data, 'count' => count($data)], Response::HTTP_OK);
+    }
+
+    /**
+     * @param $customerEntity
+     * @return array
+     */
+    public function extrator($customerEntity)
+    {
+        return [
+            'id' => $customerEntity->getId(),
+            'name' => $customerEntity->getName(),
+            'email' => $customerEntity->getEmail(),
+            'phone' => $customerEntity->getPhone(),
+            'address' => $customerEntity->getAddress(),
+            'gender' => $customerEntity->getGender(),
+            'status' => $customerEntity->getStatus()
+        ];
     }
 }
