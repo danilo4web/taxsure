@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\CustomerEntity;
+use App\Repository\CustomerRepositoryInterface;
 
 /**
  * Interface CustomerServiceInterface
@@ -12,43 +13,50 @@ use App\Entity\CustomerEntity;
  */
 interface CustomerServiceInterface
 {
+    /**
+     * CustomerService constructor.
+     * @param \App\Repository\CustomerRepositoryInterface $customerRepository
+     */
+    public function __construct(CustomerRepositoryInterface $customerRepository);
 
     /**
-     * Find for customers
+     * Find for customers by params
      *
      * @param array $params
      * @return array
      */
-    public function findCustomers($params): array;
+    public function getCustomersBy($params): array;
+
+    /**
+     * Find a customer by ID
+     *
+     * @param integer $customerId
+     * @return \App\Entity\CustomerEntity
+     */
+    public function getCustomer($customerId): CustomerEntity;
 
     /**
      * Create a new Customer
      *
      * @param \App\Entity\CustomerEntity $customerEntity
-     * @return mixed
+     * @return \App\Entity\CustomerEntity
      */
-    public function create(CustomerEntity $customerEntity): bool;
-
-    /**
-     * Find Customer
-     *
-     * @param integer $customerId
-     * @return mixed
-     */
-    public function find($customerId);
+    public function createCustomer(CustomerEntity $customerEntity): CustomerEntity;
 
     /**
      * Update Customer
      *
      * @param \App\Entity\CustomerEntity $customerEntity
-     * @param integer                    $customerId ;
-     * @return boolean
+     * @param integer                    $customerId
+     * @return \App\Entity\CustomerEntity
      */
-    public function update($customerEntity, $customerId): bool;
+    public function updateCustomer($customerEntity, $customerId): CustomerEntity;
 
     /**
+     * Delete a customer
+     *
      * @param integer $customerId
      * @return boolean
      */
-    public function delete($customerId): bool;
+    public function deleteCustomer($customerId): bool;
 }

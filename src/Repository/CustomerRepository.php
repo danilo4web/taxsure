@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\CustomerEntity;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * Class CustomerRepository
@@ -10,148 +11,44 @@ use App\Entity\CustomerEntity;
  * @package   App\Repository
  * @author    Danilo Pereira <danilo4web@gmail.com>
  */
-class CustomerRepository implements CustomerRepositoryInterface
+class CustomerRepository extends EntityRepository implements CustomerRepositoryInterface
 {
+    use DefaultCRUDRepositoryTrait;
 
-    /** @var $connection */
-    private $connection;
-
-    public function __construct()
+    /**
+     * Get Customer
+     *
+     * @param integer $customerId
+     * @return \App\Entity\CustomerEntity
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     */
+    public function getCustomer($customerId): CustomerEntity
     {
-        global $connection;
-        $this->connection = $connection;
+        return $this->_em->find(CustomerEntity::class, $customerId);
     }
 
     /**
-     * Find customers
+     * Find Customers by parameters
      *
      * @param array $params
      * @return array
      */
-    public function findCustomers($params): array
+    public function findCustomersBy($params): array
     {
-        $query = "SELECT * FROM `symfony`.`customer` WHERE `status` = '" . CustomerEntity::STATUS_ENABLED . "'";
+        $queryBuilder = $this->_em->createQueryBuilder()
+            ->from(CustomerEntity::class, 'c')
+            ->select('c');
 
-        if (count($params)) {
-            foreach ($params as $key => $content) {
-                $query .= " AND `$key` = '" . $content . "' ";
-            }
+        foreach ($params as $key => $param) {
+            $queryBuilder
+                ->andWhere($queryBuilder
+                    ->expr()
+                    ->eq('c.' . $key, ':' . $key))
+                ->setParameter(':' . $key, $param);
         }
 
-        $result = mysqli_query($this->connection, $query);
-
-        $content = [];
-        while ($row = mysqli_fetch_assoc($result)) {
-            $content[] = $row;
-        }
-
-        return $content;
-    }
-
-    /**
-     * Find One Customer
-     *
-     * @param integer $customerId
-     * @return mixed
-     */
-    public function fetchRow(int $customerId)
-    {
-        $query = "SELECT `id`, `name`, `email`, `phone`, `address`, `gender`, `status`
-                  FROM `symfony`.`customer` 
-                  WHERE `id` = '{$customerId}'";
-
-        $result = mysqli_query($this->connection, $query);
-
-        if ($result->num_rows > 0) {
-            $data = mysqli_fetch_assoc($result);
-
-            $customerEntity = new CustomerEntity();
-            $customerEntity->setId($data['id'])
-                ->setName($data['name'])
-                ->setEmail($data['email'])
-                ->setPhone($data['phone'])
-                ->setAddress($data['address'])
-                ->setGender($data['gender'])
-                ->setStatus($data['status']);
-
-
-            return $customerEntity;
-        }
-
-        return null;
-    }
-
-    /**
-     * Create Customer
-     *
-     * @param \App\Entity\CustomerEntity $customerEntity
-     * @return boolean
-     */
-    public function create(CustomerEntity $customerEntity): bool
-    {
-        $query = "
-            INSERT INTO `symfony`.`customer`
-                (`name`, `email`, `phone`, `address`, `gender`, `status`)
-            VALUES
-                (
-                    '{$customerEntity->getName()}', 
-                    '{$customerEntity->getEmail()}', 
-                    '{$customerEntity->getPhone()}', 
-                    '{$customerEntity->getAddress()}', 
-                    '{$customerEntity->getGender()}', 
-                    '{$customerEntity->getStatus()}'
-                );";
-
-        if (mysqli_query($this->connection, $query)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Update Customer
-     *
-     * @param \App\Entity\CustomerEntity $customerEntity
-     * @param integer                    $customerId
-     * @return boolean
-     */
-    public function update(CustomerEntity $customerEntity, int $customerId): bool
-    {
-        $query = "
-            UPDATE `symfony`.`customer`
-            SET 
-                `name` = '{$customerEntity->getName()}', 
-                `email` = '{$customerEntity->getEmail()}', 
-                `phone` = '{$customerEntity->getPhone()}', 
-                `address` = '{$customerEntity->getAddress()}', 
-                `gender` = '{$customerEntity->getGender()}', 
-                `status` = '{$customerEntity->getStatus()}'
-            WHERE
-              `id` = '{$customerId}'
-                ";
-
-        if (mysqli_query($this->connection, $query)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Delete Customer
-     *
-     * @param integer $customerId
-     * @return boolean
-     */
-    public function delete(int $customerId): bool
-    {
-        $query = "DELETE FROM `symfony`.`customer` WHERE `id` = '{$customerId}'";
-
-        if (mysqli_query($this->connection, $query)) {
-            return true;
-        }
-
-        return false;
+        return $queryBuilder->getQuery()->getResult();
     }
 }

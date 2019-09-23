@@ -1,38 +1,72 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\ORM\Entity;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * CustomerEntity
+ * @ORM\Table(name="customer")
+ * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository")
  */
 class CustomerEntity
 {
-
     /** @var integer */
     const STATUS_ENABLED = 1;
 
     /** @var integer */
     const STATUS_DISABLED = 0;
 
-    /** @return string */
-    private $id;
+    /**
+     * @var integer
+     *
+     * @ORM\Id
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    protected $id;
 
-    /** @return string */
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="`name`", type="string", length=100)
+     */
     private $name;
 
-    /** @return string */
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="`email`", type="string")
+     */
     private $email;
 
-    /** @return string */
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="`phone`", type="string")
+     */
     private $phone;
 
-    /** @return string */
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="`address`", type="string")
+     */
     private $address;
 
-    /** @return string */
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="`gender`", type="string")
+     */
     private $gender;
 
-    /** @return integer */
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="`status`", type="integer")
+     */
     private $status;
 
     /** @return integer */

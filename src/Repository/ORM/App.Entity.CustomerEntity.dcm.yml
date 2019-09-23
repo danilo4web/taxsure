@@ -1,0 +1,60 @@
+#App.Entity.CustomerEntity.dcm.yml
+App\v1\Entity\CustomerEntity:
+    type: entity
+    repositoryClass: App\Repository\CustomerRepository
+    table: customer
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            column: id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 100
+            options:
+                fixed: false
+            column: name
+        email:
+            type: string
+            nullable: false
+            lenght: 100
+            options:
+                fixed: false
+            column: email
+        phone:
+            type: string
+            nullable: false
+            length: 14
+            options:
+                fixed: false
+            column: phone
+        address:
+            type: string
+            nullable: false
+            length: 100
+            options:
+                fixed: false
+            column: address
+        gender:
+            type: string
+            nullable: false
+            length: 1
+            options:
+                fixed: false
+            column: gender
+        status:
+            type: integer
+            nullable: false
+            length: 1
+            options:
+                fixed: false
+            column: status
+
+    lifecycleCallbacks: {  }

@@ -2,11 +2,12 @@
 
 namespace App\Action;
 
-use App\Service\CustomerService;
-
 use Symfony\Component\HttpFoundation\{Request, Response, JsonResponse};
 use App\Entity\CustomerEntity;
 use App\Repository\CustomerRepository;
+use App\Service\CustomerService;
+use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
+
 
 /**
  * Class CustomerUpdateAction
@@ -16,6 +17,7 @@ use App\Repository\CustomerRepository;
  */
 class CustomerUpdateAction
 {
+    /** @var \App\Service\CustomerService $customerService */
     private $customerService;
 
     /**
@@ -24,7 +26,6 @@ class CustomerUpdateAction
     public function __construct()
     {
         $this->customerService = new CustomerService(
-            new CustomerEntity(),
             new CustomerRepository()
         );
     }
@@ -33,10 +34,11 @@ class CustomerUpdateAction
      * Update Customer
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @throws \InvalidArgumentException
      * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function handle(Request $request)
+    public function handle(Request $request): JsonResponse
     {
         $customerId = $request->attributes->get('customerId');
 
@@ -44,10 +46,41 @@ class CustomerUpdateAction
             throw new \InvalidArgumentException("Invalid customer ID", Response::HTTP_BAD_REQUEST);
         }
 
-        $customerEntity = $this->customerService->find($customerId);
+        // entity from db
+        $customerEntity = $this->customerService->getCustomer($customerId);
 
+        // data to update
         $data = json_decode($request->getContent(), true);
 
+        // entity hydrated
+        $customerEntity = $this->hydrate($customerEntity, $data);
+
+        // update
+        $customerEntity = $this->customerService->updateCustomer($customerEntity, $customerId);
+
+        $result = [
+            'name' => $customerEntity->getName(),
+            'email' => $customerEntity->getEmail(),
+            'phone' => $customerEntity->getPhone(),
+            'address' => $customerEntity->getAddress(),
+            'gender' => $customerEntity->getGender(),
+            'status' => $customerEntity->getStatus()
+        ];
+
+        return new JsonResponse(
+            ['data' => $result],
+            Response::HTTP_OK
+        );
+    }
+
+
+    /**
+     * @param \App\Entity\CustomerEntity $customerEntity
+     * @param array                      $data
+     * @return \App\Entity\CustomerEntity
+     */
+    public function hydrate($customerEntity, $data): CustomerEntity
+    {
         if (isset($data['name'])) {
             $customerEntity->setName($data['name']);
         }
@@ -72,11 +105,6 @@ class CustomerUpdateAction
             $customerEntity->setStatus($data['status']);
         }
 
-        $result = $this->customerService->update($customerEntity, $customerId);
-
-        return new JsonResponse(
-            ['data' => $result],
-            Response::HTTP_OK
-        );
+        return $customerEntity;
     }
 }

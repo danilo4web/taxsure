@@ -15,6 +15,7 @@ use App\Repository\CustomerRepository;
  */
 class CustomerAction
 {
+    /** @var \App\Service\CustomerService $customerService */
     private $customerService;
 
     /**
@@ -23,7 +24,6 @@ class CustomerAction
     public function __construct()
     {
         $this->customerService = new CustomerService(
-            new CustomerEntity(),
             new CustomerRepository()
         );
     }
@@ -32,10 +32,12 @@ class CustomerAction
      * Show Customer
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @throws \InvalidArgumentException
      * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
      */
-    public function handle(Request $request)
+    public function handle(Request $request): JsonResponse
     {
         $customerId = $request->attributes->get('customerId');
 
@@ -43,27 +45,31 @@ class CustomerAction
             throw new \InvalidArgumentException("Invalid customer ID", Response::HTTP_BAD_REQUEST);
         }
 
-        $customerEntity = $this->customerService->find($customerId);
+        $customerEntity = $this->customerService->getCustomer($customerId);
 
         if (!($customerEntity instanceof CustomerEntity)) {
-            return new JsonResponse(
-                'Customer not found',
-                Response::HTTP_NOT_FOUND
-            );
+            return new JsonResponse('Customer not found', Response::HTTP_NOT_FOUND);
         }
 
         return new JsonResponse(
-            [
-                'data' => [
-                    'name' => $customerEntity->getName(),
-                    'email' => $customerEntity->getEmail(),
-                    'phone' => $customerEntity->getPhone(),
-                    'address' => $customerEntity->getAddress(),
-                    'gender' => $customerEntity->getGender(),
-                    'status' => $customerEntity->getStatus()
-                ]
-            ],
+            ['data' => self::extrator($customerEntity)],
             Response::HTTP_OK
         );
+    }
+
+    /**
+     * @param $customerEntity
+     * @return array
+     */
+    public function extrator($customerEntity)
+    {
+        return [
+            'name' => $customerEntity->getName(),
+            'email' => $customerEntity->getEmail(),
+            'phone' => $customerEntity->getPhone(),
+            'address' => $customerEntity->getAddress(),
+            'gender' => $customerEntity->getGender(),
+            'status' => $customerEntity->getStatus()
+        ];
     }
 }

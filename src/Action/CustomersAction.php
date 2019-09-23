@@ -4,7 +4,6 @@ namespace App\Action;
 
 use Symfony\Component\HttpFoundation\{Request, Response, JsonResponse};
 use App\Service\CustomerService;
-use App\Entity\CustomerEntity;
 use App\Repository\CustomerRepository;
 
 /**
@@ -15,6 +14,7 @@ use App\Repository\CustomerRepository;
  */
 class CustomersAction
 {
+    /** @var \App\Service\CustomerService $customerService */
     private $customerService;
 
     /**
@@ -23,26 +23,24 @@ class CustomersAction
     public function __construct()
     {
         $this->customerService = new CustomerService(
-            new CustomerEntity(),
             new CustomerRepository()
         );
     }
 
     /**
-     * All Customers
+     * Action to search customers
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function handle(Request $request)
+    public function handle(Request $request): JsonResponse
     {
-        $params = json_decode($request->getContent(), true);
+        /** @var array $postParams */
+        $postParams = json_decode($request->getContent(), true);
 
-        $result = $this->customerService->findCustomers($params);
+        /** @var array $data */
+        $data = $this->customerService->getCustomersBy($postParams);
 
-        return new JsonResponse(
-            ['data' => $result, 'count' => count($result)],
-            Response::HTTP_OK
-        );
+        return new JsonResponse(['data' => $data, 'count' => count($data)], Response::HTTP_OK);
     }
 }

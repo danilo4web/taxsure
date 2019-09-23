@@ -15,6 +15,7 @@ use App\Service\CustomerService;
  */
 class CustomerCreateAction
 {
+    /** @var \App\Service\CustomerService $customerService */
     private $customerService;
 
     /**
@@ -23,7 +24,6 @@ class CustomerCreateAction
     public function __construct()
     {
         $this->customerService = new CustomerService(
-            new CustomerEntity(),
             new CustomerRepository()
         );
     }
@@ -32,10 +32,11 @@ class CustomerCreateAction
      * Create Customer
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @throws \InvalidArgumentException
      * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function handle(Request $request)
+    public function handle(Request $request): JsonResponse
     {
         $content = json_decode($request->getContent(), true);
 
@@ -49,7 +50,7 @@ class CustomerCreateAction
         $customerEntity->setGender($content['gender']);
         $customerEntity->setStatus($content['status']);
 
-        $retorno = $this->customerService->create($customerEntity);
+        $retorno = $this->customerService->createCustomer($customerEntity);
 
         if (!$retorno) {
             return new JsonResponse(

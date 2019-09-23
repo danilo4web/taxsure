@@ -13,77 +13,91 @@ use App\Repository\CustomerRepositoryInterface;
  */
 class CustomerService implements CustomerServiceInterface
 {
-    /** @var \App\Entity\CustomerEntity */
-    private $customerEntity;
-
     /** @var \App\Repository\CustomerRepositoryInterface */
     private $customerRepository;
 
     /**
      * CustomerService constructor.
-     *
-     * @param \App\Entity\CustomerEntity                  $customerEntity
      * @param \App\Repository\CustomerRepositoryInterface $customerRepository
      */
-    public function __construct(
-        CustomerEntity $customerEntity,
-        CustomerRepositoryInterface $customerRepository
-    ) {
-        $this->customerEntity = $customerEntity;
+    public function __construct(CustomerRepositoryInterface $customerRepository)
+    {
         $this->customerRepository = $customerRepository;
     }
 
     /**
-     * Find for customers
+     * Find for customers by params
      *
      * @param array $params
      * @return array
      */
-    public function findCustomers($params): array
+    public function getCustomersBy($params): array
     {
-        return $this->customerRepository->findCustomers($params);
+        return $this->customerRepository->findCustomersBy($params);
+    }
+
+    /**
+     * Find a customer by ID
+     *
+     * @param integer $customerId
+     * @return \App\Entity\CustomerEntity
+     */
+    public function getCustomer($customerId): CustomerEntity
+    {
+        if (!is_numeric($customerId)) {
+            throw new \InvalidArgumentException("Invalid Custumer ID");
+        }
+
+        return $this->customerRepository->customer($customerId);
     }
 
     /**
      * Create a new Customer
      *
      * @param \App\Entity\CustomerEntity $customerEntity
-     * @return boolean
+     * @return \App\Entity\CustomerEntity
      */
-    public function create(CustomerEntity $customerEntity): bool
+    public function createCustomer(CustomerEntity $customerEntity): CustomerEntity
     {
         return $this->customerRepository->create($customerEntity);
-    }
-
-    /**
-     * Find Customer
-     *
-     * @param integer $customerId
-     * @return mixed
-     */
-    public function find($customerId)
-    {
-        return $this->customerRepository->fetchRow($customerId);
     }
 
     /**
      * Update Customer
      *
      * @param \App\Entity\CustomerEntity $customerEntity
-     * @param integer                    $customerId ;
-     * @return boolean
+     * @param integer                    $customerId
+     * @return \App\Entity\CustomerEntity
      */
-    public function update($customerEntity, $customerId): bool
+    public function updateCustomer($customerEntity, $customerId): CustomerEntity
     {
+        if (!is_numeric($customerId)) {
+            throw new \InvalidArgumentException("Invalid Custumer ID");
+        }
+
+        if (!($customerEntity instanceof CustomerEntity)) {
+            throw new \InvalidArgumentException("Invalid Customer Entity");
+        }
+
         return $this->customerRepository->update($customerEntity, $customerId);
     }
 
     /**
+     * Delete a customer
+     *
      * @param integer $customerId
      * @return boolean
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function delete($customerId): bool
+    public function deleteCustomer($customerId): bool
     {
-        return $this->customerRepository->delete($customerId);
+        if (!is_numeric($customerId)) {
+            throw new \InvalidArgumentException("Invalid Custumer ID");
+        }
+
+        $custumerEntity = $this->getCustomer($customerId);
+
+        return $this->customerRepository->delete($custumerEntity);
     }
 }

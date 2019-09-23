@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\CustomerEntity;
+use \App\Entity\CustomerEntity;
 
 /**
  * Interface CustomerRepository
@@ -10,46 +10,24 @@ use App\Entity\CustomerEntity;
  * @package   App\Repository
  * @author    Danilo Pereira <danilo4web@gmail.com>
  */
-interface CustomerRepositoryInterface
+interface CustomerRepositoryInterface extends DefaultRepositoryInterface
 {
     /**
-     * find customers
+     * Get Customer
      *
-     * @param $params
+     * @param integer $customerId
+     * @return \App\Entity\CustomerEntity
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     */
+    public function getCustomer($customerId): CustomerEntity;
+
+    /**
+     * Find Customers by parameters
+     *
+     * @param array $params
      * @return array
      */
-    public function findCustomers($params): array;
-
-    /**
-     * Find One Customer
-     *
-     * @param integer $customerId
-     * @return mixed
-     */
-    public function fetchRow(int $customerId);
-
-    /**
-     * Create Customer
-     *
-     * @param \App\Entity\CustomerEntity $customerEntity
-     * @return boolean
-     */
-    public function create(CustomerEntity $customerEntity): bool;
-
-    /**
-     * Update Customer
-     *
-     * @param \App\Entity\CustomerEntity $customerEntity
-     * @param integer                    $customerId
-     * @return boolean
-     */
-    public function update(CustomerEntity $customerEntity, int $customerId): bool;
-
-    /**
-     * Delete Customer
-     *
-     * @param integer $customerId
-     * @return boolean
-     */
-    public function delete(int $customerId): bool;
+    public function findCustomersBy($params): array;
 }
