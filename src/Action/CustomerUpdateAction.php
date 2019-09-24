@@ -52,7 +52,7 @@ class CustomerUpdateAction
         // request data
         $data = json_decode($request->getContent(), true);
 
-        if(!($customerEntity instanceof CustomerEntity)) {
+        if (!($customerEntity instanceof CustomerEntity)) {
             return new JsonResponse('Customer not found', Response::HTTP_NOT_FOUND);
         }
 

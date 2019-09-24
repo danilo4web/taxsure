@@ -36,5 +36,5 @@ interface DefaultRepositoryInterface
      * @throws \Doctrine\ORM\OptimisticLockException
      * @return boolean
      */
-    public function delete($entity) : bool;
+    public function delete($entity): bool;
 }

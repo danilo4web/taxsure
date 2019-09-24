@@ -53,7 +53,7 @@ class CustomersAction
      * @param $customerEntity
      * @return array
      */
-    public function extrator(CustomerEntity $customerEntity)
+    public function extrator(CustomerEntity $customerEntity): array
     {
         return [
             'id' => $customerEntity->getId(),

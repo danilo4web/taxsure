@@ -61,7 +61,7 @@ trait DefaultCRUDRepositoryTrait
      * @throws \Doctrine\ORM\OptimisticLockException
      * @return boolean
      */
-    public function delete($entity) : bool
+    public function delete($entity): bool
     {
         $this->_em->remove($entity);
         $this->_em->flush();
