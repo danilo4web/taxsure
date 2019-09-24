@@ -19,14 +19,16 @@ class CustomerRepository extends EntityRepository implements CustomerRepositoryI
      * Get Customer
      *
      * @param integer $customerId
-     * @return \App\Entity\CustomerEntity
+     * @return mixed
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Doctrine\ORM\TransactionRequiredException
      */
-    public function getCustomer($customerId): CustomerEntity
+    public function getCustomer(int $customerId)
     {
-        return $this->_em->find(CustomerEntity::class, $customerId);
+        $customerEntity = $this->_em->find(CustomerEntity::class, $customerId);
+
+        return $customerEntity;
     }
 
     /**
@@ -35,7 +37,7 @@ class CustomerRepository extends EntityRepository implements CustomerRepositoryI
      * @param array $params
      * @return array
      */
-    public function findCustomersBy($params): array
+    public function findCustomersBy(array $params): array
     {
         $queryBuilder = $this->_em->createQueryBuilder()
             ->from(CustomerEntity::class, 'c')

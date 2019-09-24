@@ -11,5 +11,30 @@ namespace App\Repository;
  */
 interface DefaultRepositoryInterface
 {
+    /**
+     * Create
+     * @param $entity
+     * @return mixed
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function create($entity);
 
+    /**
+     * Update
+     * @param $entity
+     * @return mixed
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function update($entity);
+
+    /**
+     * Delete
+     * @param $entity
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @return boolean
+     */
+    public function delete($entity) : bool;
 }

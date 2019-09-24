@@ -46,9 +46,13 @@ class CustomerDeleteAction
 
         $result = $this->customerService->deleteCustomer($customerId);
 
+        if (!$result) {
+            return new JsonResponse('Customer not found', Response::HTTP_NOT_FOUND);
+        }
+
         return new JsonResponse(
-            $result,
-            Response::HTTP_NO_CONTENT
+            ['status' => 'ok'],
+            Response::HTTP_OK
         );
     }
 }

@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\CustomerEntity;
 use App\Repository\CustomerRepositoryInterface;
+use Doctrine\ORM\Mapping\Entity;
 
 /**
  * Interface CustomerServiceInterface
@@ -31,7 +32,7 @@ class CustomerService implements CustomerServiceInterface
      * @param array $params
      * @return array
      */
-    public function getCustomersBy($params): array
+    public function getCustomersBy(array $params): array
     {
         return $this->customerRepository->findCustomersBy($params);
     }
@@ -40,18 +41,20 @@ class CustomerService implements CustomerServiceInterface
      * Find a customer by ID
      *
      * @param integer $customerId
-     * @return \App\Entity\CustomerEntity
+     * @return \App\Entity\CustomerEntity|null
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Doctrine\ORM\TransactionRequiredException
      */
-    public function getCustomer($customerId): CustomerEntity
+    public function getCustomer(int $customerId)
     {
         if (!is_numeric($customerId)) {
             throw new \InvalidArgumentException("Invalid Custumer ID");
         }
 
-        return $this->customerRepository->getCustomer($customerId);
+        $customerEntity = $this->customerRepository->getCustomer($customerId);
+
+        return $customerEntity;
     }
 
     /**
@@ -59,6 +62,8 @@ class CustomerService implements CustomerServiceInterface
      *
      * @param \App\Entity\CustomerEntity $customerEntity
      * @return \App\Entity\CustomerEntity
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function createCustomer(CustomerEntity $customerEntity): CustomerEntity
     {
@@ -71,8 +76,10 @@ class CustomerService implements CustomerServiceInterface
      * @param \App\Entity\CustomerEntity $customerEntity
      * @param integer                    $customerId
      * @return \App\Entity\CustomerEntity
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function updateCustomer($customerEntity, $customerId): CustomerEntity
+    public function updateCustomer(CustomerEntity $customerEntity, int $customerId): CustomerEntity
     {
         if (!is_numeric($customerId)) {
             throw new \InvalidArgumentException("Invalid Custumer ID");
@@ -93,14 +100,18 @@ class CustomerService implements CustomerServiceInterface
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function deleteCustomer($customerId): bool
+    public function deleteCustomer(int $customerId): bool
     {
         if (!is_numeric($customerId)) {
             throw new \InvalidArgumentException("Invalid Custumer ID");
         }
 
-        $custumerEntity = $this->getCustomer($customerId);
+        $customerEntity = $this->getCustomer($customerId);
 
-        return $this->customerRepository->delete($custumerEntity);
+        if (!($customerEntity instanceof CustomerEntity)) {
+            return false;
+        }
+
+        return $this->customerRepository->delete($customerEntity);
     }
 }

@@ -16,12 +16,12 @@ interface CustomerRepositoryInterface extends DefaultRepositoryInterface
      * Get Customer
      *
      * @param integer $customerId
-     * @return \App\Entity\CustomerEntity
+     * @return mixed
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Doctrine\ORM\TransactionRequiredException
      */
-    public function getCustomer($customerId): CustomerEntity;
+    public function getCustomer(int $customerId);
 
     /**
      * Find Customers by parameters
@@ -29,5 +29,5 @@ interface CustomerRepositoryInterface extends DefaultRepositoryInterface
      * @param array $params
      * @return array
      */
-    public function findCustomersBy($params): array;
+    public function findCustomersBy(array $params): array;
 }

@@ -25,18 +25,18 @@ interface CustomerServiceInterface
      * @param array $params
      * @return array
      */
-    public function getCustomersBy($params): array;
+    public function getCustomersBy(array $params): array;
 
     /**
      * Find a customer by ID
      *
      * @param integer $customerId
-     * @return \App\Entity\CustomerEntity
+     * @return \App\Entity\CustomerEntity|null
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Doctrine\ORM\TransactionRequiredException
      */
-    public function getCustomer($customerId): CustomerEntity;
+    public function getCustomer(int $customerId);
 
     /**
      * Create a new Customer
@@ -53,7 +53,7 @@ interface CustomerServiceInterface
      * @param integer                    $customerId
      * @return \App\Entity\CustomerEntity
      */
-    public function updateCustomer($customerEntity, $customerId): CustomerEntity;
+    public function updateCustomer(CustomerEntity $customerEntity, int $customerId): CustomerEntity;
 
     /**
      * Delete a customer
@@ -61,5 +61,5 @@ interface CustomerServiceInterface
      * @param integer $customerId
      * @return boolean
      */
-    public function deleteCustomer($customerId): bool;
+    public function deleteCustomer(int $customerId): bool;
 }

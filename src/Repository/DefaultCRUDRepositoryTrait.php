@@ -14,8 +14,6 @@ use Doctrine\ORM\DefaultEntityInterface;
 trait DefaultCRUDRepositoryTrait
 {
     /** @var \Doctrine\ORM\EntityManager */
-
-    /** @var \Doctrine\ORM\EntityManager */
     public static $entityManager;
 
     /**
@@ -28,7 +26,7 @@ trait DefaultCRUDRepositoryTrait
 
     /**
      * Create
-     * @param DefaultEntityInterface $entity
+     * @param $entity
      * @return mixed
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
@@ -43,7 +41,7 @@ trait DefaultCRUDRepositoryTrait
 
     /**
      * Update
-     * @param DefaultEntityInterface $entity
+     * @param $entity
      * @return mixed
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
@@ -58,14 +56,16 @@ trait DefaultCRUDRepositoryTrait
 
     /**
      * Delete
-     * @param DefaultEntityInterface $entity
+     * @param $entity
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
-     * @return void
+     * @return boolean
      */
-    public function delete($entity)
+    public function delete($entity) : bool
     {
         $this->_em->remove($entity);
         $this->_em->flush();
+
+        return true;
     }
 }

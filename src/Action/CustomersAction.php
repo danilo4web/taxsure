@@ -5,6 +5,7 @@ namespace App\Action;
 use Symfony\Component\HttpFoundation\{Request, Response, JsonResponse};
 use App\Service\CustomerService;
 use App\Repository\CustomerRepository;
+use App\Entity\CustomerEntity;
 
 /**
  * Class CustomersAction
@@ -52,7 +53,7 @@ class CustomersAction
      * @param $customerEntity
      * @return array
      */
-    public function extrator($customerEntity)
+    public function extrator(CustomerEntity $customerEntity)
     {
         return [
             'id' => $customerEntity->getId(),

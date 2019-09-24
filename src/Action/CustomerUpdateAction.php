@@ -52,11 +52,19 @@ class CustomerUpdateAction
         // request data
         $data = json_decode($request->getContent(), true);
 
+        if(!($customerEntity instanceof CustomerEntity)) {
+            return new JsonResponse('Customer not found', Response::HTTP_NOT_FOUND);
+        }
+
         // hydrate entity
         $customerEntity = $this->hydrate($customerEntity, $data);
 
         // update
         $customerEntity = $this->customerService->updateCustomer($customerEntity, $customerId);
+
+        if (!($customerEntity instanceof CustomerEntity)) {
+            return new JsonResponse('Customer not found', Response::HTTP_NOT_FOUND);
+        }
 
         $result = [
             'name' => $customerEntity->getName(),
@@ -78,7 +86,7 @@ class CustomerUpdateAction
      * @param array                      $data
      * @return \App\Entity\CustomerEntity
      */
-    public function hydrate($customerEntity, $data): CustomerEntity
+    public function hydrate(CustomerEntity $customerEntity, array $data): CustomerEntity
     {
         if (isset($data['name'])) {
             $customerEntity->setName($data['name']);
